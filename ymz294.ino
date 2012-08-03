@@ -25,8 +25,8 @@ void setupYMZ() {
     //digitalWrite(RESET, HIGH);
 
     set_noise(0x00);
-    set_mixer(0x38);  //A:tone B:tone C:tone
-    
+    set_mixer(0x37);  //A:noise
+    /*
     set_vol_chA(0x00);
     set_vol_chB(0x00);
     set_vol_chC(0x00);
@@ -34,6 +34,8 @@ void setupYMZ() {
     set_chA_MIDI(60);
     set_chB_MIDI(64);
     set_chC_MIDI(67);
+    */
+    
 }
 
 void write_data(unsigned char address, unsigned char data)
@@ -43,9 +45,14 @@ void write_data(unsigned char address, unsigned char data)
   digitalWrite(CS, LOW);
   digitalWrite(Ao, LOW);
   
-  for(int i=0; i < 8; i++){
-    digitalWrite(i, (address >> i)&0x01);
-  }
+  digitalWrite(D0, address&0x01);
+  digitalWrite(D1, (address >> 1)&0x01);
+  digitalWrite(D2, (address >> 2)&0x01);
+  digitalWrite(D3, (address >> 3)&0x01);
+  digitalWrite(D4, (address >> 4)&0x01);
+  digitalWrite(D5, (address >> 5)&0x01);
+  digitalWrite(D6, (address >> 6)&0x01);
+  digitalWrite(D7, (address >> 7)&0x01);
   
   digitalWrite(WR, HIGH);
   digitalWrite(CS, HIGH);
@@ -54,9 +61,14 @@ void write_data(unsigned char address, unsigned char data)
   digitalWrite(CS, LOW);
   digitalWrite(Ao, HIGH);
   
-  for(int i=0; i < 8; i++){
-    digitalWrite(i, (data >> i)&0x01);
-  }
+  digitalWrite(D0, address&0x01);
+  digitalWrite(D1, (data >> 1)&0x01);
+  digitalWrite(D2, (data >> 2)&0x01);
+  digitalWrite(D3, (data >> 3)&0x01);
+  digitalWrite(D4, (data >> 4)&0x01);
+  digitalWrite(D5, (data >> 5)&0x01);
+  digitalWrite(D6, (data >> 6)&0x01);
+  digitalWrite(D7, (data >> 7)&0x01);
   
   digitalWrite(WR, HIGH);
   digitalWrite(CS, HIGH);
@@ -100,7 +112,7 @@ void set_chC_period(int i)
 
 void set_noise(int i)
 {
-    write_data(0x06, tp[i]&0x1f);
+    write_data(0x06, i&0x1f);
 }
 
 void set_mixer(int i)
