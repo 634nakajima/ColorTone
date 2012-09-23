@@ -8,9 +8,9 @@ int D5 = 6;
 int D6 = 7;
 int D7 = 8;
 
-int WR = 16;//25
+int WR = 14;//23
 int CS = 15;//24
-int Ao = 14;//23
+int Ao = 16;//25
 int RESET = 17;//26
 
 //LED
@@ -25,17 +25,22 @@ int CK = 12;//18
 int GATE = 18;//27
 
 unsigned int rgb[3];
+unsigned int i=0;
+int f;
 
 void updateLED() {
-    analogWrite(R, rgb[0]);
-    analogWrite(G, rgb[1]);
-    analogWrite(B, rgb[2]);
+    analogWrite(R, rgb[0]/16);
+    analogWrite(G, rgb[1]/16);
+    analogWrite(B, rgb[2]/16);
 }
 
 void updateSound() {
-    set_vol_chA(rgb[0]>>4);
-    //set_vol_chB(rgb[1]>>4);
-    //set_vol_chC(rgb[2]>>4);   
+
+    f = rgb[2]/64 - (rgb[0]+rgb[1])/128;
+    if(f < 2) f = 2;
+    if(f>15) f = 15;
+    set_vol_chA((unsigned int)f);
+    set_noise(0x08);
 }
 
 void setup(){
@@ -63,12 +68,17 @@ void setup(){
     pinMode(GATE, OUTPUT);
     
     setupYMZ();
-
 }
 
 void loop(){
-  
-    getColor(10);
+    /*set_vol_chA(0x0f);
+    set_noise(i);
+    delay(200);
+    i++;
+    if(i==32)
+      i=0;*/
+    getColor(100);
     updateLED();
     updateSound();
+  
 }

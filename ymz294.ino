@@ -21,21 +21,14 @@ int tp[] = {//MIDI note number
 };
 
 void setupYMZ() {
-    //digitalWrite(RESET, LOW);
-    //digitalWrite(RESET, HIGH);
+    digitalWrite(RESET, LOW);
+    delay(10);
+    digitalWrite(RESET, HIGH);
 
     set_noise(0x00);
     set_mixer(0x37);  //A:noise
-    /*
+    
     set_vol_chA(0x00);
-    set_vol_chB(0x00);
-    set_vol_chC(0x00);
-    
-    set_chA_MIDI(60);
-    set_chB_MIDI(64);
-    set_chC_MIDI(67);
-    */
-    
 }
 
 void write_data(unsigned char address, unsigned char data)
@@ -45,7 +38,7 @@ void write_data(unsigned char address, unsigned char data)
   digitalWrite(CS, LOW);
   digitalWrite(Ao, LOW);
   
-  digitalWrite(D0, address&0x01);
+  digitalWrite(D0, (address >> 0)&0x01);
   digitalWrite(D1, (address >> 1)&0x01);
   digitalWrite(D2, (address >> 2)&0x01);
   digitalWrite(D3, (address >> 3)&0x01);
@@ -61,7 +54,7 @@ void write_data(unsigned char address, unsigned char data)
   digitalWrite(CS, LOW);
   digitalWrite(Ao, HIGH);
   
-  digitalWrite(D0, address&0x01);
+  digitalWrite(D0, (data >> 0)&0x01);
   digitalWrite(D1, (data >> 1)&0x01);
   digitalWrite(D2, (data >> 2)&0x01);
   digitalWrite(D3, (data >> 3)&0x01);
@@ -74,73 +67,73 @@ void write_data(unsigned char address, unsigned char data)
   digitalWrite(CS, HIGH);
 }
 
-void set_chA_MIDI(int i)
+void set_chA_MIDI(unsigned int i)
 {
     write_data(0x00, tp[i]&0xff);
     write_data(0x01, (tp[i] >> 8)&0x0f);
 }
 
-void set_chB_MIDI(int i)
+void set_chB_MIDI(unsigned int i)
 {
     write_data(0x02, tp[i]&0xff);
     write_data(0x03, (tp[i] >> 8)&0x0f);
 }
 
-void set_chC_MIDI(int i)
+void set_chC_MIDI(unsigned int i)
 {
     write_data(0x04, tp[i]&0xff);
     write_data(0x05, (tp[i] >> 8)&0x0f);
 }
 
-void set_chA_period(int i)
+void set_chA_period(unsigned int i)
 {
     write_data(0x00, i&0xff);
     write_data(0x01, (i >> 8)&0x0f);
 }
 
-void set_chB_period(int i)
+void set_chB_period(unsigned int i)
 {
     write_data(0x02, i&0xff);
     write_data(0x03, (i >> 8)&0x0f);
 }
 
-void set_chC_period(int i)
+void set_chC_period(unsigned int i)
 {
     write_data(0x04, i&0xff);
     write_data(0x05, (i >> 8)&0x0f);
 }
 
-void set_noise(int i)
+void set_noise(unsigned int i)
 {
     write_data(0x06, i&0x1f);
 }
 
-void set_mixer(int i)
+void set_mixer(unsigned int i)
 {
     write_data(0x07, i);
 }
 
-void set_vol_chA(int i)
+void set_vol_chA(unsigned int i)
 {
     write_data(0x08, i);
 }
 
-void set_vol_chB(int i)
+void set_vol_chB(unsigned int i)
 {
     write_data(0x09, i);
 }
 
-void set_vol_chC(int i)
+void set_vol_chC(unsigned int i)
 {
     write_data(0x0A, i);
 }
 
-void set_env_ctl(int i)
+void set_env_ctl(unsigned int i)
 {
     write_data(0x0D, i);
 }
 
-void set_env_period(int i)
+void set_env_period(unsigned int i)
 {
     write_data(0x0B, i&0xff);
     write_data(0x0C, (i >> 8)&0xff);

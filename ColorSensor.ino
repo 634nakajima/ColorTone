@@ -19,7 +19,7 @@ void getColor(int tg){
     delayMicroseconds(5);
     digitalWrite(GATE, HIGH);
     
-    //rgb[2] = rgb[2] * 0.64;
+    rgb[2] = rgb[2] * 0.60;
 }
 
 void readDOUT(int c) {
