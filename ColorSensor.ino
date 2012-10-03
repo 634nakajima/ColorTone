@@ -36,8 +36,5 @@ void readDOUT(int c) {
           bitSet(rgb[c],i);
         }
     }
-    //Serial.print(rgb[c]);
-    //Serial.println("\n");
-
 }
 

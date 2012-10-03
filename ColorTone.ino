@@ -71,12 +71,7 @@ void setup(){
 }
 
 void loop(){
-    /*set_vol_chA(0x0f);
-    set_noise(i);
-    delay(200);
-    i++;
-    if(i==32)
-      i=0;*/
+  
     getColor(100);
     updateLED();
     updateSound();
