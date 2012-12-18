@@ -15,8 +15,8 @@ int RESET = 17;//26
 
 //LED
 int R = 9;//15
-int G = 11;//17
-int B = 10;//16
+int G = 10;//17
+int B = 11;//16
 
 //ColorSensor
 int DOUT = 19;//28
